@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallet/BottomNav.dart';
 import 'package:wallet/CryptoList.dart';
 import 'package:wallet/Poster.dart';
 
@@ -30,11 +31,7 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: 80.0,
         ),
         body: const Column(
-          children: [
-            SearchBar(),
-            Poster(),
-            CryptList(),
-          ],
+          children: [SearchBar(), Poster(), CryptList(), BottomNav()],
         ));
   }
 }
