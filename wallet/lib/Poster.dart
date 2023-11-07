@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Poster extends StatelessWidget {
   const Poster({super.key});
@@ -29,14 +30,52 @@ class Poster extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         Container(
-            height: 100,
+            height: 150,
             width: 350,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color: const Color.fromARGB(255, 135, 134, 134))),
-            child: const Column(
-              children: [],
+              borderRadius: BorderRadius.circular(25.0),
+              // border: Border.all(
+              //     color: const Color.fromARGB(255, 135, 134, 134))
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/btc.svg', // Replace with the path to your SVG file
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      const Column(
+                        children: [
+                          Text(
+                            "\$55,0000 USD",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            "                      +2.5%",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.green,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SvgPicture.asset(
+                  'assets/posterlogo.svg', // Replace with the path to your SVG file
+                  width: 350, // Set the width as needed
+                )
+              ],
             )),
       ],
     );

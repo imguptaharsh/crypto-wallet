@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallet/CryptoList.dart';
 import 'package:wallet/Poster.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             SearchBar(),
             Poster(),
+            CryptList(),
           ],
         ));
   }
