@@ -9,7 +9,7 @@ class Poster extends StatelessWidget {
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 0),
           child: Row(
             children: [
               Text(
@@ -72,7 +72,7 @@ class Poster extends StatelessWidget {
                   ),
                 ),
                 SvgPicture.asset(
-                  'assets/posterlogo.svg', // Replace with the path to your SVG file
+                  'assets/posterlogo.svg',
                   width: 350, // Set the width as needed
                 )
               ],

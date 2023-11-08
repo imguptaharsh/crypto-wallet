@@ -1,236 +1,152 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wallet/CryptoInfoList.dart';
+import 'package:wallet/Poster.dart';
+import 'package:http/http.dart' as http;
+// import 'package:wallet/model.dart';
 
-class CryptList extends StatelessWidget {
-  const CryptList({super.key});
+class CryptoInfo {
+  final int id;
+  final String name;
+  final double price;
+  final double percentChange24h;
+  String logo; // Updated to include the logo URL
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(25.0),
-      child: Column(
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Top Cryptocurrencies",
-                style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500),
-              ),
-              Text(
-                "View All",
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Color.fromARGB(255, 127, 126, 126),
-                    fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-              // height: 150,
-              // width: 350,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                // border: Border.all(
-                //     color: const Color.fromARGB(255, 135, 134, 134))
-              ),
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/logo.svg', // Replace with the path to your SVG file
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "ETH",
-                            style: TextStyle(
-                                fontSize: 18,
-                                // color: Color.fromARGB(255, 127, 126, 126),
-                                fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.left,
-                          ),
-                          Text(
-                            "Ethereum",
-                            style: TextStyle(
-                                fontSize: 15,
-                                // color: Color.fromARGB(255, 127, 126, 126),
-                                fontWeight: FontWeight.w400),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: 50,
-                        alignment: Alignment.topCenter,
-                        child: SvgPicture.asset(
-                          'assets/down.svg',
-                          // alignment: Alignment.topCenter,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Text(
-                            "\$55,0000 USD",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            "+2.5%",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  // Column(
-                  //   children: [
-                  //     Row(
-                  //       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: [
-                  //         Text(
-                  //           "ETH",
-                  //           style: TextStyle(
-                  //               fontSize: 18,
-                  //               // color: Color.fromARGB(255, 127, 126, 126),
-                  //               fontWeight: FontWeight.w500),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 25,
-                  //         ),
-                  //         SvgPicture.asset(
-                  //           'assets/down.svg', // Replace with the path to your SVG file
-                  //         ),
-                  //         SizedBox(
-                  //           width: 25,
-                  //         ),
-                  //         Text(
-                  //           "\$55,0000 USD",
-                  //           style: TextStyle(
-                  //               fontSize: 18,
-                  //               color: Colors.black,
-                  //               fontWeight: FontWeight.w500),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     // SizedBox(
-                  //     //   height: 10,
-                  //     // ),
-                  //     Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: const [
-                  //         Text(
-                  //           "Ethereum",
-                  //           style: TextStyle(
-                  //               fontSize: 15,
-                  //               // color: Color.fromARGB(255, 127, 126, 126),
-                  //               fontWeight: FontWeight.w400),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 165,
-                  //         ),
-                  //         Text(
-                  //           "+2.5%",
-                  //           style: TextStyle(
-                  //               fontSize: 14,
-                  //               color: Colors.green,
-                  //               fontWeight: FontWeight.w700),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
-                ],
-              )),
-        ],
-      ),
+  CryptoInfo({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.percentChange24h,
+    required this.logo, // Include the logo URL in the constructor
+  });
+
+  factory CryptoInfo.fromJson(Map<String, dynamic> json) {
+    return CryptoInfo(
+      id: json['id'],
+      name: json['name'],
+      price: (json['quote']['USD']['price'] as num).toDouble(),
+      percentChange24h:
+          (json['quote']['USD']['percent_change_24h'] as num).toDouble(),
+      logo:
+          'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png', // Set a default logo URL here
     );
   }
 }
 
-// Column(
-//                     children: [
-//                       Row(
-//                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Text(
-//                             "ETH",
-//                             style: TextStyle(
-//                                 fontSize: 18,
-//                                 // color: Color.fromARGB(255, 127, 126, 126),
-//                                 fontWeight: FontWeight.w500),
-//                           ),
-//                           SizedBox(
-//                             width: 25,
-//                           ),
-//                           SvgPicture.asset(
-//                             'assets/down.svg', // Replace with the path to your SVG file
-//                           ),
-//                           SizedBox(
-//                             width: 25,
-//                           ),
-//                           Text(
-//                             "\$55,0000 USD",
-//                             style: TextStyle(
-//                                 fontSize: 18,
-//                                 color: Colors.black,
-//                                 fontWeight: FontWeight.w700),
-//                           ),
-//                         ],
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.start,
-//                         children: const [
-//                           Text(
-//                             "Ethereum",
-//                             style: TextStyle(
-//                                 fontSize: 18,
-//                                 // color: Color.fromARGB(255, 127, 126, 126),
-//                                 fontWeight: FontWeight.w500),
-//                           ),
-//                           SizedBox(
-//                             width: 25,
-//                           ),
-//                           Text(
-//                             "+2.5%",
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 color: Colors.green,
-//                                 fontWeight: FontWeight.w700),
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
+class CryptList extends StatefulWidget {
+  const CryptList({Key? key}) : super(key: key);
+
+  @override
+  State<CryptList> createState() => _CryptListState();
+}
+
+class _CryptListState extends State<CryptList> {
+  late Future<List<CryptoInfo>> data;
+
+  Future<List<CryptoInfo>> fetchCryptoData() async {
+    final apiUrl = Uri.parse(
+        'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest');
+    final headers = {
+      'X-CMC_PRO_API_KEY': 'd7ac7eda-9c8e-40f9-ac31-5f5c449eb43a',
+    };
+
+    try {
+      final response = await http.get(apiUrl, headers: headers);
+
+      if (response.statusCode == 200) {
+        // final List<dynamic> jsonData = json.decode(response.body)['data'];
+        // final List<CryptoInfo> cryptoInfoList = jsonData
+        //     .map((cryptoData) => CryptoInfo.fromJson(cryptoData))
+        //     .toList();
+        // // print("$cryptoInfoList['id']");
+        // return cryptoInfoList.take(20).toList();
+        final List<dynamic> jsonData = json.decode(response.body)['data'];
+        final List<CryptoInfo> cryptoInfoList = [];
+
+        for (var cryptoData in jsonData.take(20)) {
+          final cryptoInfo = CryptoInfo.fromJson(cryptoData);
+
+          // Fetch the logo for each cryptocurrency
+          final logoUrl = await fetchCryptoLogo(cryptoInfo.id);
+          cryptoInfo.logo = logoUrl;
+
+          cryptoInfoList.add(cryptoInfo);
+        }
+
+        return cryptoInfoList;
+      } else {
+        throw Exception('Failed to load data from the API');
+      }
+    } catch (error) {
+      throw Exception('Error: $error');
+    }
+  }
+
+  Future<String> fetchCryptoLogo(int cryptoId) async {
+    final String apiUrl =
+        'https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=$cryptoId';
+
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: {
+        'X-CMC_PRO_API_KEY':
+            'd7ac7eda-9c8e-40f9-ac31-5f5c449eb43a', // Replace with your actual CoinMarketCap API key
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final Map<String, dynamic> cryptoInfo = data['data']['$cryptoId'];
+      final String logoUrl = cryptoInfo['logo'];
+      return logoUrl;
+    } else {
+      throw Exception('Failed to load crypto data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    data = fetchCryptoData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(25.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Poster(),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Top Cryptocurrencies",
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  "View All",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color.fromARGB(255, 127, 126, 126),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            CryptoList(data: data),
+          ],
+        ),
+      ),
+    );
+  }
+}

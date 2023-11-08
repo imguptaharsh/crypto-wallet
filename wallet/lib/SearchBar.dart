@@ -1,60 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:wallet/BottomNav.dart';
-import 'package:wallet/CryptoList.dart';
+import 'package:wallet/model.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(' EXCHANGES',
-            style: TextStyle(color: Colors.black, fontSize: 22)),
-        actions: const [
-          Icon(
-            Icons.notifications_none_outlined,
-            color: Colors.black,
-          ),
-          SizedBox(width: 15),
-          Icon(Icons.settings, color: Colors.black),
-          SizedBox(width: 15),
-          // SearchBar()
-        ],
-        toolbarHeight: 80.0,
-      ),
-      body: const Column(
-        children: [
-          SearchBar(),
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                CryptList(), // The scrollable CryptoList
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: BottomNav(),
-                ), // The BottomNav overlaid on top
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-    // body: CryptList());
-  }
-}
-
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
   const SearchBar({
     super.key,
   });
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  List<CryptoInfo> cryptocurrencyList = [];
+
+  bool sortAscending = true; // Used to toggle sorting order
+
+  void sortCryptocurrencyList(bool byPrice) {
+    setState(() {
+      cryptocurrencyList.sort((a, b) {
+        if (byPrice) {
+          return sortAscending
+              ? a.price.compareTo(b.price)
+              : b.price.compareTo(a.price);
+        } else {
+          return sortAscending
+              ? a.percentChange24h.compareTo(b.percentChange24h)
+              : b.percentChange24h.compareTo(a.percentChange24h);
+        }
+      });
+
+      // Toggle the sorting order for the next sorting
+      sortAscending = !sortAscending;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
