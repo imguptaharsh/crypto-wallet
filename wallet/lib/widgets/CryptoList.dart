@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet/widgets/CryptoInfoList.dart';
-import 'package:wallet/Filter/FilterPage.dart';
 import 'package:wallet/widgets/Poster.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet/provider/data.dart';

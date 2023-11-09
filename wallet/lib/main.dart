@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:wallet/HomePage.dart';
 
-import 'package:wallet/HomePage.dart';
+import 'package:wallet/screens/HomePage.dart';
 import 'package:wallet/provider/data.dart';
 
 void main() {

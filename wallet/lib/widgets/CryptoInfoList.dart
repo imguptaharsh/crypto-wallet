@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wallet/CryptoList.dart';
+import 'package:wallet/widgets/CryptoList.dart';
 
 class CryptoInfoList extends StatelessWidget {
   const CryptoInfoList({

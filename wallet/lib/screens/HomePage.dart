@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallet/widgets/BottomNav.dart';
-import 'package:wallet/CryptoList.dart';
-import 'package:wallet/Filter/FilterPage.dart';
+import 'package:wallet/widgets/CryptoList.dart';
+import 'package:wallet/screens/FilterPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

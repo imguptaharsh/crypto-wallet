@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet/widgets/CryptoInfoList.dart';
-import 'package:wallet/CryptoList.dart';
+import 'package:wallet/widgets/CryptoList.dart';
 import 'package:wallet/provider/data.dart';
 
+// ignore: must_be_immutable
 class FilterPage extends StatefulWidget {
   FilterPage({super.key, required this.filter});
   String filter;
