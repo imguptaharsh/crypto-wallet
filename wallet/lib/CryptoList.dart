@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wallet/CryptoInfoList.dart';
-import 'package:wallet/Poster.dart';
+import 'package:provider/provider.dart';
+import 'package:wallet/widgets/CryptoInfoList.dart';
+import 'package:wallet/Filter/FilterPage.dart';
+import 'package:wallet/widgets/Poster.dart';
 import 'package:http/http.dart' as http;
+import 'package:wallet/provider/data.dart';
 // import 'package:wallet/model.dart';
 
 class CryptoInfo {
@@ -73,7 +76,9 @@ class _CryptListState extends State<CryptList> {
 
           cryptoInfoList.add(cryptoInfo);
         }
-
+        final cryptoInfoProvider =
+            Provider.of<CryptoInfoProvider>(context, listen: false);
+        cryptoInfoProvider.cryptoData = cryptoInfoList;
         return cryptoInfoList;
       } else {
         throw Exception('Failed to load data from the API');
@@ -114,7 +119,7 @@ class _CryptListState extends State<CryptList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(25.0),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -143,7 +148,7 @@ class _CryptListState extends State<CryptList> {
             const SizedBox(
               height: 30,
             ),
-            CryptoList(data: data),
+            CryptoInfoList(data: data),
           ],
         ),
       ),

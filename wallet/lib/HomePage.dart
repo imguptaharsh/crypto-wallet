@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wallet/BottomNav.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:wallet/widgets/BottomNav.dart';
 import 'package:wallet/CryptoList.dart';
+import 'package:wallet/Filter/FilterPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,22 +15,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(' EXCHANGES',
             style: TextStyle(color: Colors.black, fontSize: 22)),
-        actions: const [
-          Icon(
-            Icons.notifications_none_outlined,
-            color: Colors.black,
+        actions: [
+          SvgPicture.asset('assets/notification.svg'),
+          const SizedBox(width: 15),
+          SvgPicture.asset(
+            'assets/settings.svg',
+            width: 25,
           ),
-          SizedBox(width: 15),
-          Icon(Icons.settings, color: Colors.black),
-          SizedBox(width: 15),
+          const SizedBox(width: 15),
           // SearchBar()
         ],
-        toolbarHeight: 80.0,
+        toolbarHeight: 75.0,
       ),
       body: const Column(
         children: [
@@ -51,10 +54,17 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
   const SearchBar({
     super.key,
   });
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  String selectedOption = 'Filter';
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +72,11 @@ class SearchBar extends StatelessWidget {
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
-                color: Colors.grey[200],
+                color: Colors.white,
               ),
               child: const TextField(
                 decoration: InputDecoration(
@@ -79,27 +89,46 @@ class SearchBar extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 40),
+          padding: const EdgeInsets.all(8.0),
           child: Container(
+            padding: const EdgeInsets.only(left: 0, right: 10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color: const Color.fromARGB(255, 135, 134, 134))),
-            child: const Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(11.0, 11.0, 2.0, 11.0),
-                  child: Icon(Icons.filter_list,
-                      color: Color.fromARGB(255, 135, 134, 134)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(2.0, 11.0, 11.0, 11.0),
-                  child: Text(
-                    'Filter',
-                    style: TextStyle(color: Color.fromARGB(255, 135, 134, 134)),
-                  ),
-                ),
-              ],
+                border: Border.all(color: Color.fromARGB(255, 175, 174, 174))),
+            child: DropdownButton<String>(
+              // icon: Icon(Icons.filter_list),
+              alignment: Alignment.center,
+              value: selectedOption,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedOption = newValue!;
+                  // Navigate to the FilterPage
+                  // sortCryptocurrencyList(selectedOption);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            FilterPage(filter: selectedOption)),
+                  );
+                });
+              },
+              items: <String>['Filter', 'Price', 'Top Gainers', 'Top Losers']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color.fromARGB(255, 145, 144, 144),
+                fontWeight: FontWeight.w700,
+              ),
+              icon: const Icon(
+                Icons.filter_list,
+                color: Color.fromARGB(255, 145, 144, 144),
+              ),
+              iconSize: 24, // Adjust the size of the icon as needed
             ),
           ),
         ),

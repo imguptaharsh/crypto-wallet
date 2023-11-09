@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallet/CryptoList.dart';
 
-class CryptoList extends StatelessWidget {
-  const CryptoList({
+class CryptoInfoList extends StatelessWidget {
+  const CryptoInfoList({
     super.key,
     required this.data,
   });
@@ -27,9 +27,7 @@ class CryptoList extends StatelessWidget {
             itemCount: cryptoInfoList!.length,
             itemBuilder: (context, index) {
               final cryptoInfo = cryptoInfoList[index];
-              print(cryptoInfo.id);
-
-              return CryptoInfoList(cryptoInfo: cryptoInfo);
+              return InfoWidget(cryptoInfo: cryptoInfo);
             },
           );
         } else {
@@ -40,8 +38,8 @@ class CryptoList extends StatelessWidget {
   }
 }
 
-class CryptoInfoList extends StatelessWidget {
-  const CryptoInfoList({
+class InfoWidget extends StatelessWidget {
+  const InfoWidget({
     super.key,
     required this.cryptoInfo,
     //  required this.logo
@@ -53,10 +51,10 @@ class CryptoInfoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(22.0),
         color: Colors.white,
       ),
-      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       // padding: const EdgeInsets.all(0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,8 +77,8 @@ class CryptoInfoList extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    cryptoInfo.name, // Replace with actual name if needed
-                    style: TextStyle(
+                    cryptoInfo.name,
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),

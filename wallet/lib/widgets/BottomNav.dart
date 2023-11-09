@@ -50,8 +50,8 @@ class BottomNav extends StatelessWidget {
                 const Text("Exchange",
                     style: TextStyle(
                         fontSize: 12,
-                        color: Color.fromARGB(255, 174, 173, 173),
-                        fontWeight: FontWeight.w400))
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600))
               ],
             ),
           ),

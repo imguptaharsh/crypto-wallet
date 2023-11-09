@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:wallet/provider/data.dart';
 
 class Poster extends StatelessWidget {
   const Poster({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cryptoInfoProvider = Provider.of<CryptoInfoProvider>(context);
+    final cryptocurrencyList = cryptoInfoProvider.cryptoData;
     return Column(
       children: [
         const Padding(
@@ -34,8 +38,6 @@ class Poster extends StatelessWidget {
             width: 350,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25.0),
-              // border: Border.all(
-              //     color: const Color.fromARGB(255, 135, 134, 134))
             ),
             child: Column(
               children: [
@@ -45,26 +47,36 @@ class Poster extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SvgPicture.asset(
-                        'assets/btc.svg', // Replace with the path to your SVG file
+                        'assets/btc.svg',
                       ),
                       const SizedBox(
                         width: 50,
                       ),
-                      const Column(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "\$55,0000 USD",
-                            style: TextStyle(
+                            cryptocurrencyList.isEmpty
+                                ? "\$55,0000 USD"
+                                : "${cryptocurrencyList.isNotEmpty ? cryptocurrencyList[0].price.toStringAsFixed(2) : ''}",
+                            style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700),
                           ),
                           Text(
-                            "                      +2.5%",
+                            cryptocurrencyList.isEmpty
+                                ? "2.5%"
+                                : "${cryptocurrencyList.isNotEmpty ? (cryptocurrencyList[0].percentChange24h > 0 ? '+' : '') + cryptocurrencyList[0].percentChange24h.toStringAsFixed(2) : '2.5'}%",
                             style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w700),
+                              fontSize: 14,
+                              color: cryptocurrencyList.isNotEmpty
+                                  ? cryptocurrencyList[0].percentChange24h > 0
+                                      ? Colors.green
+                                      : Colors.red
+                                  : Colors.green,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ],
                       ),
