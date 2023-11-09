@@ -13,7 +13,7 @@ Welcome to the Crypto Wallet repository! This mobile flutter application provide
 
 ### Step 1: Download the APK File
 
-- Download the APK file from [here](crypto-wallet-release.apk).
+- Download the APK file from [here](https://drive.google.com/file/d/15aP6D2mI0CRH16eL4y-BEV8mC5VrPhry/view?usp=sharing).
 
 ### Step 2: Enable Unknown Sources
 
