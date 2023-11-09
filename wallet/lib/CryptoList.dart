@@ -123,7 +123,7 @@ class _CryptListState extends State<CryptList> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const Poster(),
+            Poster(),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wallet/CryptoList.dart';
 import 'package:wallet/provider/data.dart';
 
 class Poster extends StatelessWidget {
-  const Poster({super.key});
+  Poster({super.key});
+  double btcPrice = 550000;
+  double changeIn24hours = 2.5;
+  // var cryptocurrencyList;
+  void getBTC(List<CryptoInfo> cryptocurrencyList) {
+    for (CryptoInfo crypto in cryptocurrencyList) {
+      if (crypto.name == 'Bitcoin') {
+        btcPrice = double.parse(crypto.price.toStringAsFixed(2));
+        changeIn24hours =
+            double.parse(crypto.percentChange24h.toStringAsFixed(2));
+        break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final cryptoInfoProvider = Provider.of<CryptoInfoProvider>(context);
     final cryptocurrencyList = cryptoInfoProvider.cryptoData;
+    getBTC(cryptocurrencyList);
     return Column(
       children: [
         const Padding(
@@ -56,9 +71,10 @@ class Poster extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            cryptocurrencyList.isEmpty
-                                ? "\$55,0000 USD"
-                                : "${cryptocurrencyList.isNotEmpty ? cryptocurrencyList[0].price.toStringAsFixed(2) : ''}",
+                            // cryptocurrencyList.isEmpty
+                            //     ? "\$55,0000 USD"
+                            //     : "\$${cryptocurrencyList.isNotEmpty ? cryptocurrencyList[0].price.toStringAsFixed(2) : ''} USD",
+                            '\$$btcPrice USD',
                             style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,

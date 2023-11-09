@@ -59,7 +59,7 @@ class _FilterPageState extends State<FilterPage> {
           title: Text(
             (q == 'Price' || q == 'Filter')
                 ? 'Ordered by $q'
-                : 'Top Gainers in the Last 24 Hours"',
+                : '$q in the Last 24 Hours"',
             style: const TextStyle(
               fontSize: 18,
               color: Colors.black,
